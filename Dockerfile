@@ -32,7 +32,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
 
 
 # run the scripts within the exploit folder to keep everything clean
-# WORKDIR /exploit
+WORKDIR /exploit
 RUN git clone https://github.com/claroty/opcua-exploit-framework.git && \
     ls && \
     cd opcua-exploit-framework && \
@@ -49,6 +49,6 @@ ARG DEFAULT_ENDPOINT="/freeopcua/server/"
 ENV ENV_TARGET_IP=$TARGET_IP
 ENV ENV_DEFAULT_OPC_PORT=$DEFAULT_OPC_PORT
 ENV ENV_DEFAULT_ENDPOINT=$DEFAULT_ENDPOINT
-CMD ["/bin/bash", "-c", "source ./venv/bin/activate && \
+CMD ["/bin/bash", "-c", "cd /exploit/opcua-exploit-framework", "source ./venv/bin/activate && \
         python3.11 main.py opcua-python $ENV_TARGET_IP $ENV_DEFAULT_OPC_PORT $ENV_DEFAULT_ENDPOINT sanity"]
 
