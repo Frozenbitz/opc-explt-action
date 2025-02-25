@@ -45,7 +45,7 @@ RUN git clone https://github.com/claroty/opcua-exploit-framework.git && \
 # these will need more work and exporting, to allow for handling input and output
 # of github action code 
 WORKDIR opcua-exploit-framework
-ARG TARGET_IP=127.0.0.1
+ARG TARGET_IP=0.0.0.0
 ARG DEFAULT_OPC_PORT=4840
 ARG DEFAULT_ENDPOINT="/freeopcua/server/"
 ENV ENV_TARGET_IP=$TARGET_IP
