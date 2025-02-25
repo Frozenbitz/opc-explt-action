@@ -19,6 +19,7 @@ ENV YOUR_ENV=${YOUR_ENV} \
   PIP_DEFAULT_TIMEOUT=100 \
   SHELL="/bin/bash" 
 
+# we might need to move this to the action script
 SHELL ["/bin/bash", "-c"]
 
 # venv is a needed dependency for poetry and the installer to resove dependencies outside of poetry
@@ -41,7 +42,11 @@ RUN git clone https://github.com/claroty/opcua-exploit-framework.git && \
 # arguments passed to entrypoint, ensures that environment variables are set
 WORKDIR opcua-exploit-framework
 ARG TARGET_IP=127.0.0.1
+ARG DEFAULT_OPC_PORT=4840
+ARG DEFAULT_ENDPOINT="/freeopcua/server/"
 ENV ENV_TARGET_IP=$TARGET_IP
+ENV ENV_DEFAULT_OPC_PORT=$DEFAULT_OPC_PORT
+ENV ENV_DEFAULT_ENDPOINT=$DEFAULT_ENDPOINT
 CMD ["/bin/bash", "-c", "source ./venv/bin/activate && \
-        python3.11 main.py opcua-python $ENV_TARGET_IP 4840 /freeopcua/server/ sanity"]
+        python3.11 main.py opcua-python $ENV_TARGET_IP $ENV_DEFAULT_OPC_PORT $ENV_DEFAULT_ENDPOINT sanity"]
 
