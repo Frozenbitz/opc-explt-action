@@ -32,7 +32,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
 
 
 # run the scripts within the exploit folder to keep everything clean
-WORKDIR /exploit
+# WORKDIR /exploit
 RUN git clone https://github.com/claroty/opcua-exploit-framework.git && \
     cd opcua-exploit-framework && \
     python3.11 -m venv venv && \ 
