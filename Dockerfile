@@ -42,6 +42,8 @@ RUN git clone https://github.com/claroty/opcua-exploit-framework.git && \
     pip install -r requirements.txt
 
 # arguments passed to entrypoint, ensures that environment variables are set
+# these will need more work and exporting, to allow for handling input and output
+# of github action code 
 WORKDIR opcua-exploit-framework
 ARG TARGET_IP=127.0.0.1
 ARG DEFAULT_OPC_PORT=4840
@@ -49,6 +51,10 @@ ARG DEFAULT_ENDPOINT="/freeopcua/server/"
 ENV ENV_TARGET_IP=$TARGET_IP
 ENV ENV_DEFAULT_OPC_PORT=$DEFAULT_OPC_PORT
 ENV ENV_DEFAULT_ENDPOINT=$DEFAULT_ENDPOINT
-CMD ["/bin/bash", "-c", "cd /exploit/opcua-exploit-framework", "source ./venv/bin/activate && \
+
+# Github runner require a distinctive cd step inside the docker command, since the workdir is per default
+# overriden to /github/workspace and mounted against the current repository
+# this change should work with both cases thou
+CMD ["/bin/bash", "-c", "cd /exploit/opcua-exploit-framework && source ./venv/bin/activate && \
         python3.11 main.py opcua-python $ENV_TARGET_IP $ENV_DEFAULT_OPC_PORT $ENV_DEFAULT_ENDPOINT sanity"]
 
